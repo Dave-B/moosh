@@ -62,6 +62,12 @@ class PluginInstall extends MooshCommand
         }
 
         $split = explode('_',$this->arguments[0],2);
+        if ($split[0] == 'atto') {
+            $plugindest = 'lib/editor/atto/plugins';
+
+        } else {
+            $plugindest = $split[0];
+        }
         $tempdir = home_dir() . '/.moosh/moodleplugins/';
 
         if(!file_exists($tempdir)) {
@@ -83,7 +89,7 @@ class PluginInstall extends MooshCommand
 
         try {
             shell_exec("unzip " . $tempdir . $split[1] . ".zip -d " . home_dir() . "/.moosh/moodleplugins/");
-            shell_exec("cp -r " . $tempdir . $split[1] . "/ " . $CFG->dirroot.  "/" . $split[0]);
+            shell_exec("cp -r " . $tempdir . $split[1] . "/ " . $CFG->dirroot.  "/" . $plugindest);
         } catch (Exception $e) {
             echo "Failed to unzip plugin. " . $e . "\n";
             return;
